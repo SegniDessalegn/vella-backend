@@ -43,6 +43,32 @@ export async function getPages(
 	}
 }
 
+export async function getPage(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<Response | void> {
+    try {
+        // Fetch all examples from the ExampleController
+        const data = await PageController.getPageById(req.params.id);
+
+        // Create a response object with the retrieved data
+        const response: IDataResponse<IPage | null> = {
+            message: "Page retrieved successfully",
+            status: "success",
+            data: data,
+        };
+
+        // Send the response with the data and a 200 status code
+        return res.status(200).json(response);
+    } catch {
+        // If an error occurs, pass a new ServerFailedError to the next middleware
+        return next(
+            new ServerFailedError("Failed to retrieve page."),
+        );
+    }
+}
+
 export async function createPage(
     req: Request,
     res: Response,
@@ -65,6 +91,58 @@ export async function createPage(
         // If an error occurs, pass a new ServerFailedError to the next middleware
         return next(
             new ServerFailedError("Failed to create page."),
+        );
+    }
+}
+
+export async function updatePage(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<Response | void> {
+    try {
+        // Fetch all examples from the ExampleController
+        const data = await PageController.updatePage(req.body.page, req.body.url, req.body.description);
+
+        // Create a response object with the retrieved data
+        const response: IDataResponse<IPage | null> = {
+            message: "Page updated successfully",
+            status: "success",
+            data: data,
+        };
+
+        // Send the response with the data and a 200 status code
+        return res.status(200).json(response);
+    } catch {
+        // If an error occurs, pass a new ServerFailedError to the next middleware
+        return next(
+            new ServerFailedError("Failed to update page."),
+        );
+    }
+}
+
+export async function deletePage(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<Response | void> {
+    try {
+        // Fetch all examples from the ExampleController
+        const data = await PageController.deletePage(req.body.url);
+
+        // Create a response object with the retrieved data
+        const response: IDataResponse<IPage | null> = {
+            message: "Page deleted successfully",
+            status: "success",
+            data: data,
+        };
+
+        // Send the response with the data and a 200 status code
+        return res.status(200).json(response);
+    } catch {
+        // If an error occurs, pass a new ServerFailedError to the next middleware
+        return next(
+            new ServerFailedError("Failed to delete page."),
         );
     }
 }

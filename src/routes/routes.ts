@@ -6,7 +6,7 @@ import {
 import configuration from "../utils/configuration";
 import getHome from "./homes";
 import { getExamples } from "./examples";
-import { getPages, createPage } from "./pages";
+import { getPages, createPage, getPage, updatePage, deletePage } from "./pages";
 
 /**
  * Create a new Router instance.
@@ -47,7 +47,10 @@ router.get(baseURL, getHome);
 router.get(`${baseURL}/examples`, getExamples);
 
 router.get(`${baseURL}/pages`, getPages);
+router.get(`${baseURL}/pages/:id`, getPage);
 router.post(`${baseURL}/pages`, createPage);
+router.put(`${baseURL}/pages/:id`, updatePage);
+router.delete(`${baseURL}/pages/:id`, deletePage);
 
 /**
  * Export the router instance for use in other modules.

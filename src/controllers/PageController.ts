@@ -63,7 +63,7 @@ export default class PageController {
      * @returns A promise that resolves to the updated IPage object or null if not found.
      * @throws Will throw an error if the update fails.
      */
-    public static async updatePage(pageId: string, page: string, description?: string): Promise<IPage | null> {
+    public static async updatePage(page: string, pageId: string, description?: string): Promise<IPage | null> {
         try {
             const updatedPage = await PageModel.findByIdAndUpdate(
                 pageId,
