@@ -8,6 +8,7 @@ import notFoundError from "./middlewares/notFoundError";
 import globalError from "./middlewares/globalError";
 import logger from "./utils/logger";
 import router from "./routes/routes";
+import pageUrl from "./middlewares/pageUrl";
 
 /**
  * Create an instance of the Express application.
@@ -56,8 +57,11 @@ app.use(
 
 /**
  * Use the router for handling routes.
- */
+*/
+
+app.use(pageUrl);
 app.use(router);
+
 
 /**
  * Define a catch-all route to handle 404 Not Found errors.

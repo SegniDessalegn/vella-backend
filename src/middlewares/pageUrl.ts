@@ -23,6 +23,10 @@ export default function pageUrl(
 	 * Create a new NotFoundError with a descriptive message
 	 * including the original requested URL.
 	 */
-    req.body.url = cleanUrl(req.body.url);
+
+	if (req.body.url) {
+		req.body.url = cleanUrl(req.body.url);
+	}
+
 	next();
 }

@@ -47,10 +47,10 @@ router.get(baseURL, getHome);
 router.get(`${baseURL}/examples`, getExamples);
 
 router.get(`${baseURL}/pages`, getPages);
-router.get(`${baseURL}/pages/:id`, getPage);
+router.get(`${baseURL}/pages/*`, getPage);
 router.post(`${baseURL}/pages`, createPage);
-router.put(`${baseURL}/pages/:id`, updatePage);
-router.delete(`${baseURL}/pages/:id`, deletePage);
+router.put(`${baseURL}/pages/*`, updatePage);
+router.delete(`${baseURL}/pages/*`, deletePage);
 
 /**
  * Export the router instance for use in other modules.

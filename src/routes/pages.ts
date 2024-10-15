@@ -7,15 +7,16 @@ import ServerFailedError from "../errors/ServerFailedError";
 import { IDataResponse } from "../types/response";
 import { IPage } from "../database/models/PageModel";
 import PageController from "../controllers/PageController";
+import { cleanUrl } from "../utils/url";
 
 /**
- * Handles GET requests to retrieve examples from the ExampleController.
- * This function attempts to fetch all examples and returns them in the response.
+ * Handles GET requests to retrieve pages from the PageController.
+ * This function attempts to fetch all pages and returns them in the response.
  *
  * @param req - The HTTP request object.
  * @param res - The HTTP response object.
  * @param next - The next middleware function in the stack.
- * @returns A response with the retrieved examples or an error if the operation fails.
+ * @returns A response with the retrieved pages or an error if the operation fails.
  */
 export async function getPages(
 	req: Request,
@@ -23,12 +24,12 @@ export async function getPages(
 	next: NextFunction,
 ): Promise<Response | void> {
 	try {
-		// Fetch all examples from the ExampleController
+		// Fetch all pages from the PageController
 		const data = await PageController.getAll();
 
 		// Create a response object with the retrieved data
 		const response: IDataResponse<IPage[]> = {
-			message: "Examples retrieved successfully",
+			message: "Pages retrieved successfully",
 			status: "success",
 			data: data,
 		};
@@ -38,7 +39,7 @@ export async function getPages(
 	} catch {
 		// If an error occurs, pass a new ServerFailedError to the next middleware
 		return next(
-			new ServerFailedError("Failed to retrieve examples."),
+			new ServerFailedError("Failed to retrieve pages."),
 		);
 	}
 }
@@ -49,8 +50,7 @@ export async function getPage(
     next: NextFunction,
 ): Promise<Response | void> {
     try {
-        // Fetch all examples from the ExampleController
-        const data = await PageController.getPageById(req.params.id);
+        const data = await PageController.getPageById(cleanUrl(req.params[0]));
 
         // Create a response object with the retrieved data
         const response: IDataResponse<IPage | null> = {
@@ -75,7 +75,7 @@ export async function createPage(
     next: NextFunction,
 ): Promise<Response | void> {
     try {
-        // Fetch all examples from the ExampleController
+        // Fetch all pages from the PageController
         const data = await PageController.createPage(req.body.page, req.body.url, req.body.description);
 
         // Create a response object with the retrieved data
@@ -101,8 +101,8 @@ export async function updatePage(
     next: NextFunction,
 ): Promise<Response | void> {
     try {
-        // Fetch all examples from the ExampleController
-        const data = await PageController.updatePage(req.body.page, req.body.url, req.body.description);
+        // Fetch all pages from the PageController
+        const data = await PageController.updatePage(req.body.page, cleanUrl(req.params[0]), req.body.description);
 
         // Create a response object with the retrieved data
         const response: IDataResponse<IPage | null> = {
@@ -127,8 +127,8 @@ export async function deletePage(
     next: NextFunction,
 ): Promise<Response | void> {
     try {
-        // Fetch all examples from the ExampleController
-        const data = await PageController.deletePage(req.body.url);
+        // Fetch all pages from the PageController
+        const data = await PageController.deletePage(cleanUrl(req.params[0]));
 
         // Create a response object with the retrieved data
         const response: IDataResponse<IPage | null> = {
