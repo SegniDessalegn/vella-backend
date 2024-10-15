@@ -15,6 +15,9 @@ import pageUrl from "./middlewares/pageUrl";
  */
 const app = express();
 
+app.use(express.json({limit: '100mb'}));
+app.use(express.urlencoded({limit: '100mb'}));
+
 /**
  * Enable CORS (Cross-Origin Resource Sharing) for specified origins.
  * This allows the application to accept requests from different domains.
